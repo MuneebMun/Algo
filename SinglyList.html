@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Linked List</h2>
+</body>
+
+
+<script>
+
+// LINKED LIST
+// 1. Create a node class 
+// 2. Create a linked list class 
+
+class Node {
+    constructor(data) {
+        this.data = data;
+        this.next = null; // Basically it holds the address of next node (currently it is NULL because last item address would be null)
+    }
+}
+
+// Below is the LinkedList class with a constructor and list of methods to be implemented
+
+class LinkedList {
+    constructor() {
+        this.head = null // HEAD HOLDS FIRST NODE OF A LIST
+        this.size = 0 // Size indicates the size of the list
+    }
+
+    // Add element at the end of the list
+    addElement(element) {
+        var node = new Node (element) //
+        var current; // To store current node
+
+        if(this.head == null) {
+            this.head = node;
+        }
+        else {
+            current = this.head;
+            while(current.next) {
+                current = current.next
+            }
+            current.next = node;
+        }
+        
+    }
+
+    // ADD ELEMENT AT BEGINING
+
+    addElementBegining(element) {
+        var node = new Node(element)
+        if(this.head !== null) {
+            node.next = this.head
+            this.head = node;
+        }
+    }
+
+    // ADD ELEMENT AT SPECIFIC INDEX
+    addElementAtSpecific(element,position) {
+        var node = new Node(element);
+        var temp = this.head;
+        for(let i = 0; i < position -1; i++) {
+           temp = temp.next;
+           
+        }
+        node.next = temp.next
+        temp.next = node;
+    }
+    
+    // DELETE THE ITEM FROM THE BEGINING OF THE LIST
+    // WHENEVER YOU DELETE THE ITEM FROM LIST JUST DISCONNECT THE LINK 
+
+    removeFromTheBegining(){
+        var temp = this.head;
+        this.head = temp.next;
+        temp.next = null;
+    }
+
+    removeAtSpecifiedPosition(position) {
+        var current = this.head;
+        for(let i = 0; i < position -1; i++) {
+            current = current.next;
+        }
+        current.next = current.next.next
+    }
+
+}
+
+var node = new LinkedList()
+node.addElement("10") // 1
+node.addElement("20") // 3
+node.addElementBegining("5") //0
+node.addElementAtSpecific("15",2) // 2
+node.removeFromTheBegining()
+node.removeAtSpecifiedPosition(2)
+console.log(node)
+</script>
+</html>
