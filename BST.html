@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>BINARY SEARCH TREE</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
+</head>
+
+<body>
+    <h2> BINARY SEARCH TREE</h2>
+</body>
+
+<script>
+
+// 1. CREATE A CLASS NODE. EACH NODE WILL BE DEFINED WITH 3 PROPERTIES. (1. DATA, 2. LEFT, 3. RIGHT)
+
+class Node {
+    constructor(data){
+        this.data = data;
+        this.left = null; // pointers
+        this.right = null; // pointers
+    }
+}
+
+// BINARYSEARCHTREE CLASS WHICH HOLD THE ROOT OF THE TREE AND CAN ADD METHOD INSIDE THE CLASS
+
+class BinarySearchTree {
+    constructor(){
+        this.root = null;
+    }
+    
+    // IT INSERTS A NEW NODE IN A TREE WITH A VALUE DATA
+    insert(data){
+        var newNode = new Node(data); // STORE NEW NODE 
+        
+        if(this.root === null) {
+            this.root = newNode;
+        }
+        else {
+            this.insertNode(this.root, newNode)
+        }
+    }
+
+    // Insert node when root is already initialized
+    insertNode(node,newNode) {
+        // if the data is less than the node the "DATA" will be moved to the left of the tree
+        if(newNode.data < node.data) {
+            // if the left is null insert the newnode here
+            if(node.left === null) {
+                node.left = newNode
+            }
+            else {
+                // if left is not null recur untill null is found
+                this.insertNode(node.left, newNode)
+            }
+        }
+
+        if(newNode.data > node.data) {
+            // if the data is greater than the NODE DATA then it will be moved to the left of the tree
+            if(node.right === null){
+                node.right = newNode;
+            }
+            else {
+                this.insertNode(node.right, newNode)
+            }
+        }
+    }
+
+
+    // FIND MINIMUM NODE FROM BST 
+    // Searching starts from the given node
+    // Can do with helper method to instead of directly calling findMinNode()
+    findMinNode(node) {
+        if(node.left === null){return node}
+        else {
+            // recursive method: It runs untill it finds the node who's left child is null
+            return this.findMinNode(node.left)
+        }
+    }
+     
+    // STEPS TO REMOVE A NODE: 
+    // 1. TRAVERSE AND GET THE NODE (EITHER IT SHOULD BE IN LEFT SUBTREE OR RIGHT SUBTREE)
+    // THEN DISCONNECT THE NODE (3 SCENARIOS NEEDS TO BE CHECKED )
+
+    // HELPER METHOD THAT CALLS THE removeNode with a "GIVEN DATA & ROOT NODE"
+    remove(dataToBeRemoved) {
+        // root is re-initialized with root of a modified tree
+        this.root = this.removeNode(this.root, dataToBeRemoved)
+    }
+    
+    // IT SEARCHES FOR A NODE WITH A GIVEN DATA AND THEN PERFORM STEPS TO DELETE IT 
+    removeNode(node, key) {
+        // validation: If root is null then tree is empty return ASAP
+        if(node === null) {return null}
+        
+        // if data/key is less than the than root data then move to the left subtree
+        else if(key < node.data ) {
+            node.left = this.removeNode(node.left, key)
+            return node;
+        }
+
+        // if data/key is greater than the roots data then move to the right subtree
+        else if (key > node.data) {
+            node.right = this.removeNode(node.right, key)
+            return node;
+        }
+
+        // if data is similar to the root's data then delete this node
+
+        else {
+            // deleting node with noo children (ie. LEAF NODE)
+            if(node.left === null && node.right === null) {
+                node = null;
+                return null;
+            }
+
+            // deleting with one children (Basically a child will replace the address/position of a PARENT)
+            if(node.left == null) {
+                node = node.right; // REPLACING THE NODE WITH RIGHT NODE
+                return node;
+            }
+            else if (node.right == null) {
+                node = node.left; // REPLACING THE NODE WITH LEFT NODE
+                return node;
+            }
+
+            // // Deleting node with two children 
+            // // minumum node of the rigt subtree 
+            // // is stored in aux 
+            var aux = this.findMinNode(node.right); 
+            node.data = aux.data; 
+    
+            node.right = this.removeNode(node.right, aux.data); 
+            return node;
+        }
+    }
+
+
+    // SEARCH DATA IN BST
+
+    searchNode(root,key) {
+
+        // If node is null: This will also executes when NODE IS NOT FOUND
+
+        if(root === null) {
+            console.log("SEARCH NOT FOUND")
+            return root;
+        }
+        else if(key === root.data) {
+            console.log("search found", root)
+            return root;
+        }
+        else if(key < root.data) {
+         // means the node is in left subtree
+         this.searchNode(root.left, key)   
+        }
+        else if(key > root.data) {
+            this.searchNode(root.right, key)
+        }
+    }
+
+}
+
+var bst = new BinarySearchTree()
+bst.insert(50); // ROOT 
+bst.insert(30) // LEFT 
+bst.insert(60) // RIGHT
+bst.insert(68) // RIGHT CHILD OF RIGHT SUBTREE
+bst.insert(20) // LEFT CHILD OF LEFT SUBTREE
+// bst.findMinNode(bst.root)
+// bst.remove(20)
+bst.searchNode(bst.root, 222)
+console.log(bst,"BINARY SEARCH TREE")
+
+</script>
+</html>
