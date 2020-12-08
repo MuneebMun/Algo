@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>dOUBLE LINKED LIST</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+</head>
+<body>
+    <h3>Double Linked list</h3>
+    
+    <!-- CREATE DOUBLY LINKED LIST -->
+<script>
+        class Node {
+            constructor(data) {
+                this.prev = null // POINTER WHICH HOLD ADDRESS OF PREVIOUS NODE
+                this.next = null // POINTER WHICH  HOLDS ADDRESS OF NEXT NODE
+                this.data = data // 
+            }
+        }
+
+        class DoubleLinkedList {
+            constructor() {
+                this.head = null;
+                this.tail = null;
+            }
+
+            // ADD NODE TO THE LIST 
+
+            addElement(data) {
+                var newNode = new Node(data);
+                
+                if(this.head === null) {
+                    this.head = newNode; // HEAD AND TAIL SHOULD BE SAME
+                    this.tail = newNode;
+                }
+                else {
+                    this.tail.next = newNode
+                    newNode.prev = this.tail
+                    this.tail = newNode;
+                }
+            }
+
+            // DISPLAY LINKED LIST DATA
+
+            displayLinkedListData () {
+                var current = this.head;
+                while(current !== null) {
+                    current = current.next;
+                }
+            }
+
+            // INSERTION at begining
+            addNodeAtBeginning(data) {
+                var node = new Node();
+                node.data = data;
+                node.prev = null;
+                node.next = this.head;
+                this.head.prev = node; // head of previous
+                this.head = node;
+                
+            }
+
+            // INSERTION AT END
+            addNodeAtEnd(data) {
+                var node = new Node();
+                node.data = data;
+                node.next = null // AUTOMATICALLY WE KNOW 
+                node.prev = this.tail // PREV POINTER SHOULD POINT TO LAST NODE
+                this.tail.next = node
+                this.tail = node
+            }
+
+            // INSERT AT SPECIFIC 
+
+            addElementAtSpecific(data, position) {
+                var newNode = new Node()
+                var temp = this.head;
+                for(let i = 0; i < position -1; i++) {
+                    temp = temp.next;
+                }
+                newNode.data = data;
+                newNode.next = temp.next // because of temp of next would the next node value that we replacing
+                temp.next.prev = newNode
+                temp.next = newNode;
+                newNode.prev = temp   
+            }
+
+            deleteFromBeginning() {
+                var nextNode = this.head.next // storing next element from head
+                nextNode.prev = null;
+                this.head = nextNode;
+
+            }
+
+        }
+
+var node = new DoubleLinkedList()
+node.addElement(10) // 1
+node.addElement(20) // 2
+node.displayLinkedListData()
+node.addNodeAtBeginning(5) // 0
+node.addNodeAtEnd(30)
+// node.addElementAtSpecific()
+node.deleteFromBeginning()
+console.log(node)
+
+</script>
+
+</body>
+</html>
