@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Strings & Algo </title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
+</head>
+<script>
+  // Algorithim to determine if a string has all unique characters. 
+  // Time Complexity of this algorithim is O(N) - Space Complexity is O(1)
+  function isUnique(str){
+  var map = new Map(); // can use plain object - 
+  for(let i = 0; i < str.length; i++){
+    var char = str[i];
+    if(map.has(char)){
+     return false;
+    }
+    else {
+     map.set(char, true);
+    }
+ }
+    return true;
+}
+isUnique("abcdefghc")
+
+
+
+// Given an m x n matrix. If an element is 0, set its entire row and column to 0. Do it in-place.
+
+function zeroMatrix(matrix) {
+    var trackZeroLocation = [];
+    for(let i = 0; i < matrix.length; i++) {
+        for(let j = 0; j < matrix[i].length; j++) {
+            if(matrix[i][j] === 0) {
+                // Push the row index and column index 
+                trackZeroLocation.push({
+                    row: i,
+                    column: j
+                });
+            }
+        }
+    }
+    
+    for(let i = 0; i < trackZeroLocation.length; i++) {
+        convertRowIntoZero(matrix,trackZeroLocation[i].row);
+    }
+    for(let j = 0; j < trackZeroLocation.length; j++) {
+        convertColoumnIntoZero(matrix, trackZeroLocation[j].column)
+    }
+    return matrix;
+}
+
+function convertRowIntoZero(matrixArray,index) {
+    // Loop through only selected row.. 
+    for(let i = 0; i < matrixArray[index].length; i++) {
+        matrixArray[index][i] = 0;
+    }
+    return matrixArray;
+}
+
+function convertColoumnIntoZero(matrixArray,index) {
+    // Loop through the matrix array and change the column
+    for(let i =0 ; i < matrixArray.length; i++) {
+        matrixArray[i][index] = 0
+    }
+
+    return matrixArray;
+}
+
+const matrix = [[1,1,1],[1,0,1],[1,1,1]]
+console.log(zeroMatrix(matrix))
+
+
+
+// Given a string return all the possible permutation 
+function calculatePermutation(str,left,right) {
+    // BASE CASE 
+    if(left == right) {
+       return console.log(str);
+    }
+    else {
+        for(let i = left; i <= right; i++) {
+            var swapped = swap(str,left,i)
+            calculatePermutation(swapped, left+1, right)
+            var swapped = swap(str,left,i)
+        }
+    }
+}
+
+function swap(str,i,j) {
+    var toChar = str.split('');
+    var temp = toChar[i];
+    toChar[i] = toChar[j];
+    toChar[j] = temp;
+    return toChar.join('');
+}
+var str = "ABC"
+calculatePermutation(str,0,str.length-1)
+
+
+// GROUPING ALL THE ANAGRAM
+function printGroupAnagram(anagrams) {
+
+var groupAnagram = {};
+
+for(const anagram of anagrams) {
+    const sortedItem = anagram.split('').sort().join('');
+    // IF CURRENT SORTED ELEMENT IS PRESENT IN OBJECT AS KEY IT MEANS THE CURRENT ELEMENT IS ANAGRAM OF THAT KEY
+    if(groupAnagram[sortedItem]) {
+        groupAnagram[sortedItem].push(anagram);
+    }
+
+    // ELSE JUST ASSIGN THE SORTED KEY WITH THE ITEM
+    else {
+        groupAnagram[sortedItem] = [anagram]
+    }
+}
+
+ return Object.values(groupAnagram);
+}
+
+var anagram = ["eat", "tea", "tan", "ate", "nat", "bat"];
+console.log(printGroupAnagram(anagram));
+
+</script>
+<body>
+    <h5>String and Arrays Operations</h5>
+</body>
+</html>
